@@ -31,8 +31,8 @@ jobs:
         pip install -r requirements.txt
 
     - name: Set PYTHONPATH
-      run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV  # Füge das aktuelle Verzeichnis zum PYTHONPATH hinzu
+      run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV  # Stelle sicher, dass das Hauptverzeichnis im PYTHONPATH ist
 
     - name: Run tests
       run: |
-        python -m unittest discover -s tests
+        python -m unittest discover -s tests  # Nutze unittest statt pytest, falls unittest verwendet wird
