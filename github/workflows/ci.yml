@@ -31,7 +31,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Set PYTHONPATH
-      run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV  # Stelle sicher, dass das Hauptverzeichnis im PYTHONPATH ist
+      run: echo "PYTHONPATH=$(pwd)/src" >> $GITHUB_ENV
 
     - name: Run tests
       run: |
