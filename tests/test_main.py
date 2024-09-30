@@ -2,7 +2,9 @@ import unittest
 from unittest.mock import patch
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+
+# Füge den src-Pfad hinzu, um sicherzustellen, dass das main-Modul gefunden wird
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
 from src import main
 
@@ -10,12 +12,12 @@ from src import main
 class TestRealTimeTrafficNavigation(unittest.TestCase):
 
     def setUp(self):
-        os.environ['TEST_MODE'] = '1'  # Setze die TEST_MODE-Umgebungsvariable für die Tests
+        os.environ['TEST_MODE'] = '1'
 
     def tearDown(self):
-        del os.environ['TEST_MODE']  # Entferne die TEST_MODE-Variable nach den Tests
+        del os.environ['TEST_MODE']
 
-    @patch('main.requests.get')
+    @patch('src.main.requests.get')
     def test_get_route_success(self, mock_get):
         mock_response = {
             'status': 'OK',
@@ -41,7 +43,7 @@ class TestRealTimeTrafficNavigation(unittest.TestCase):
         self.assertEqual(route['start_address'], 'Seoul, South Korea')
         self.assertEqual(route['end_address'], 'Busan, South Korea')
 
-    @patch('main.requests.get')
+    @patch('src.main.requests.get')
     def test_get_route_zero_results(self, mock_get):
         mock_response = {
             'status': 'ZERO_RESULTS'
@@ -51,7 +53,7 @@ class TestRealTimeTrafficNavigation(unittest.TestCase):
         route = main.get_route("Invalid City", "Nowhere")
         self.assertIsNone(route)
 
-    @patch('main.requests.get')
+    @patch('src.main.requests.get')
     def test_get_route_request_denied(self, mock_get):
         mock_response = {
             'status': 'REQUEST_DENIED'
