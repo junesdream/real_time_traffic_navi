@@ -13,32 +13,31 @@ API_KEY = os.getenv('API_KEY')
 
 # Funktion, um Routeninformationen von der Google Directions API abzurufen
 def get_route(origin, destination):
-    # Ändere den Modus auf "transit" für öffentliche Verkehrsmittel
-    mode = "transit"
-
-    # Füge den Modus in die URL ein
+    # Setze den Modus auf 'transit'
+    mode = 'transit'
     url = f'{BASE_URL}origin={origin}&destination={destination}&mode={mode}&key={API_KEY}&departure_time=now'
 
     # HTTP-Anfrage an die API senden
     response = requests.get(url)
     route_data = response.json()
 
-    # Debugging: Zeige die gesamte API-Antwort an
-    print(route_data)  # Dies zeigt die komplette API-Antwort an, um den Fehler besser zu verstehen
-
+    # Fehlerbehandlung: Prüfe den API-Status
     if route_data['status'] == 'OK':
         route = route_data['routes'][0]
         leg = route['legs'][0]
         return {
             'distance': leg['distance']['text'],
-            'duration': leg['duration']['text'],  # Dauer im Transit-Modus
+            'duration': leg['duration']['text'],
             'start_address': leg['start_address'],
             'end_address': leg['end_address'],
             'steps': leg['steps']
         }
     else:
-        print(f"Error fetching route: {route_data['status']}")
+        # Gib nur dann eine Fehlermeldung aus, wenn wir nicht in einem Test sind
+        if not os.getenv('TEST_MODE'):
+            print(f"Error fetching route: {route_data['status']}")
         return None
+
 
 
 # CLI-Argumente verarbeiten
