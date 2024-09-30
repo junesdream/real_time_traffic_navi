@@ -3,11 +3,9 @@ from unittest.mock import patch
 import sys
 import os
 
-# Füge den src-Pfad hinzu, um sicherzustellen, dass das main-Modul gefunden wird
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
 from src import main
-
 
 class TestRealTimeTrafficNavigation(unittest.TestCase):
 
