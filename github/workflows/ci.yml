@@ -35,4 +35,4 @@ jobs:
 
     - name: Run tests
       run: |
-        python -m unittest discover -s tests  # Nutze unittest statt pytest, falls unittest verwendet wird
+        python -m unittest discover -s tests
